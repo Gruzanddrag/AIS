@@ -1,9 +1,9 @@
 // core
-@import "utils/vars";
-@import "utils/libs";
-@import "utils/mixins";
-@import "utils/fonts";
-@import "utils/typography";
+@import 'utils/vars';
+@import 'utils/libs';
+@import 'utils/mixins';
+@import 'utils/fonts';
+@import 'utils/typography';
 
 // comon
 ::placeholder {
@@ -36,8 +36,4 @@ body {
     border: #666 1px solid;
     outline: none;
   }
-}
-
-h1 {
-  color: red;
 }

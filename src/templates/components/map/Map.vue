@@ -1,51 +1,32 @@
-/* eslint-disable no-unused-vars */
 <template lang="pug">
 #map
-  l-map(:zoom='zoom', :center='center', ref="myMap")
+  vl-map(:load-tiles-while-animating='true', :load-tiles-while-interacting='true', data-projection='EPSG:4326', style='height: 100%',)
+    vl-view(:zoom.sync='zoom', :center.sync='center', :rotation.sync='rotation',)
+    vl-geoloc(@update:position='geolocPosition = $event')
+      template(slot-scope='geoloc')
+        vl-feature#position-feature(v-if='geoloc.position')
+          vl-geom-point(:coordinates='geoloc.position')
+          vl-style-box
+            vl-style-icon(src='_media/marker.png', :scale='0.4', :anchor='[0.5, 1]')
+    vl-layer-tile#osm
+      vl-source-osm
 </template>
 
-<script>
-import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+<style lang="scss">
+.ol-zoom {
+  display: none;
+}
+</style>
 
+<script>
 export default {
-  name: "Map",
-  // eslint-disable-next-line no-undef
-  // eslint-disable-next-line vue/no-unused-components
-  components: { LMap, LTileLayer, LMarker },
-  data: function() {
+  data() {
     return {
-      map: null,
-      tileLayer: null,
-      layers: [
-        {
-          id: 0,
-          name: "Restaurants",
-          active: false,
-          features: []
-        }
-      ]
+      zoom: 11,
+      center: [402.0045926372336, 45.05981946751842],
+      rotation: 0,
+      geolocPosition: undefined
     };
-  },
-  mounted() {
-    this.initMap();
-    this.initLayers();
-  },
-  methods: {
-    initMap() {
-      // eslint-disable-next-line no-undef
-      this.map = L.map("map").setView([38.63, -90.23], 12);
-      // eslint-disable-next-line no-undef
-      this.tileLayer = L.tileLayer(
-        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png",
-        {
-          maxZoom: 18,
-          attribution:
-            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
-        }
-      );
-      this.tileLayer.addTo(this.map);
-    },
-    initLayers() {}
   }
 };
 </script>

@@ -1,31 +1,37 @@
 <template lang="pug">
-#map
-  vl-map(:load-tiles-while-animating='true', :load-tiles-while-interacting='true', data-projection='EPSG:4326', style='height: 100%',)
-    vl-view(:zoom.sync='zoom', :center.sync='center', :rotation.sync='rotation',)
-    vl-geoloc(@update:position='geolocPosition = $event')
-      template(slot-scope='geoloc')
-        vl-feature#position-feature(v-if='geoloc.position')
-          vl-geom-point(:coordinates='geoloc.position')
-          vl-style-box
-            vl-style-icon(src='_media/marker.png', :scale='0.4', :anchor='[0.5, 1]')
-    vl-layer-tile#osm
-      vl-source-osm
+  .mapcont
+    map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}")
+      map-Tile(:url="url")
+    searchRoute
+    searchTransport
+    mapControls
+    userControls
 </template>
 
-<style lang="scss">
-.ol-zoom {
-  display: none;
-}
-</style>
-
 <script>
+// eslint-disable-next-line no-unused-vars
+import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+import searchRoute from "../search/search-route";
+import searchTransport from "../search/search-transport";
+import mapControls from "../controls/contols-map";
+import userControls from "../controls/controls-user";
+
 export default {
+  name: "Map",
+  components: {
+    mapMap: LMap,
+    mapTile: LTileLayer,
+    mapMarker: LMarker,
+    searchRoute,
+    searchTransport,
+    mapControls,
+    userControls
+  },
   data() {
     return {
-      zoom: 11,
-      center: [402.0045926372336, 45.05981946751842],
-      rotation: 0,
-      geolocPosition: undefined
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      zoom: 13,
+      center: [45.044502, 41.969065]
     };
   }
 };

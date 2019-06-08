@@ -22,7 +22,7 @@ module.exports = {
     app: PATHS.src,
   },
   output: {
-    filename: `${PATHS.assets}js/[name].js`,
+    filename: `${PATHS.assets}js/[name].[hash].js`,
     path: PATHS.dist,
     publicPath: '/',
   },
@@ -57,7 +57,7 @@ module.exports = {
         test: /\.(png|jpg|gif|svg|mov|mp4)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]',
+          name: '[name].[hash].[ext]',
         },
       },
       {
@@ -66,7 +66,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[ext]',
+              name: 'fonts/[name].[hash].[ext]',
               mimetype: 'application/font-woff',
               publicPath: '../',
             },
@@ -91,7 +91,11 @@ module.exports = {
           },
           {
             loader: 'sass-loader',
-            options: { sourceMap: true },
+            options: {
+              sourceMap: true,
+              data: '@import "vars.scss";',
+              includePaths: [`${PATHS.src}/scss/utils/`],
+            },
           },
         ],
       },
@@ -116,10 +120,22 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'core',
+          test: /node_modules/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
+  },
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: `${PATHS.assets}css/[name].css`,
+      filename: `${PATHS.assets}css/[name].[hash].css`,
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

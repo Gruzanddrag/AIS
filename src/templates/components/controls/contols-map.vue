@@ -55,9 +55,14 @@
 </style>
 
 <script>
-import L from "leaflet";
 export default {
   name: "MapControls",
+  props: {
+    userLocation: {
+      type: [Object, Array],
+      default: () => [45.044502, 41.969065]
+    }
+  },
   methods: {
     zoomIn() {
       this.$parent.$refs.osm.mapObject.zoomIn();
@@ -67,7 +72,8 @@ export default {
     },
     findLocation() {
       const map = this.$parent.$refs.osm.mapObject;
-      L.marker([45.044502, 41.969065]).addTo(map);
+      // eslint-disable-next-line no-undef
+      L.marker(this.userLocation).addTo(map);
     }
   }
 };

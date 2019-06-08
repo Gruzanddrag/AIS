@@ -36,13 +36,20 @@ export default {
     zoom: {
       type: Number,
       default: 13
+    },
+    marker: {
+      type: [Object, Array],
+      custom: true,
+      default: () => [-100, -100]
     }
   },
   data() {
     return {
-      url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
-      marker: [0, 0]
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
     };
+  },
+  mounted() {
+    console.log(this.marker);
   }
 };
 </script>

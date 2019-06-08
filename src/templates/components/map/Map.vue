@@ -1,6 +1,6 @@
 <template lang="pug">
   .mapcont
-    map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}")
+    map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}", ref="osm")
       map-Tile(:url="url")
     searchRoute
     searchTransport
@@ -27,11 +27,19 @@ export default {
     mapControls,
     userControls
   },
+  props: {
+    center: {
+      type: [Object, Array],
+      default: () => [45.044502, 41.969065]
+    },
+    zoom: {
+      type: Number,
+      default: 13
+    }
+  },
   data() {
     return {
-      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-      zoom: 13,
-      center: [45.044502, 41.969065]
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
     };
   }
 };

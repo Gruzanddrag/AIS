@@ -1,11 +1,12 @@
 <template lang="pug">
-  .mapcont
-    map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}", ref="osm")
-      map-Tile(:url="url")
-    searchRoute
-    searchTransport
-    mapControls
-    userControls
+.mapcont
+  map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}", ref="osm")
+    map-Tile(:url="url")
+    map-Marker(:lat-lng="marker")
+  searchRoute
+  searchTransport
+  mapControls
+  userControls
 </template>
 
 <script>
@@ -39,7 +40,8 @@ export default {
   },
   data() {
     return {
-      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+      url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      marker: [0, 0]
     };
   }
 };

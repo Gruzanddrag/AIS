@@ -55,6 +55,7 @@
 </style>
 
 <script>
+import { userLocationBus } from "../../../index";
 export default {
   name: "MapControls",
   props: {
@@ -71,9 +72,7 @@ export default {
       this.$parent.$refs.osm.mapObject.zoomOut();
     },
     findLocation() {
-      const map = this.$parent.$refs.osm.mapObject;
-      // eslint-disable-next-line no-undef
-      L.marker(this.userLocation).addTo(map);
+      userLocationBus.$emit("placeMarker", this.userLocation);
     }
   }
 };

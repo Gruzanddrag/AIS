@@ -1,6 +1,6 @@
 <template lang="pug">
 .mapcont
-  map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="center" :options="{zoomControl: false}", ref="osm")
+  map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="initialLocation" :options="{zoomControl: false}", ref="osm")
     map-Tile(:url="url")
     map-Marker(:lat-lng="marker")
   searchRoute
@@ -16,6 +16,7 @@ import searchRoute from "../search/search-route";
 import searchTransport from "../search/search-transport";
 import mapControls from "../controls/contols-map";
 import userControls from "../controls/controls-user";
+import { userLocationBus } from "../../../index";
 
 export default {
   name: "Map",
@@ -29,7 +30,7 @@ export default {
     userControls
   },
   props: {
-    center: {
+    initialLocation: {
       type: [Object, Array],
       default: () => [45.044502, 41.969065]
     },
@@ -39,7 +40,6 @@ export default {
     },
     marker: {
       type: [Object, Array],
-      custom: true,
       default: () => [-100, -100]
     }
   },
@@ -48,8 +48,10 @@ export default {
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
     };
   },
-  mounted() {
-    console.log(this.marker);
+  created() {
+    userLocationBus.$on("placeMarker", cords => {
+      return (this.marker = cords);
+    });
   }
 };
 </script>

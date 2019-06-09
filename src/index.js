@@ -13,6 +13,8 @@ Icon.Default.mergeOptions({
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
   shadowUrl: require("leaflet/dist/images/marker-shadow.png")
 });
+export const userLocationBus = new Vue();
+
 new Vue({
   el: "#main",
   render: h => h(Map)

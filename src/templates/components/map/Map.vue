@@ -37,15 +37,12 @@ export default {
     zoom: {
       type: Number,
       default: 13
-    },
-    marker: {
-      type: [Object, Array],
-      default: () => [-100, -100]
     }
   },
   data() {
     return {
-      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      marker: [-100, -100]
     };
   },
   created() {

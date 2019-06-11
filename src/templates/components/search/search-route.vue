@@ -1,8 +1,8 @@
 <template lang="pug">
-.wrapper
+.wrapper__route_search
   .search__route
-    h2.search_name Поиск маршрута
-    .search_body
+    h2.search__name Поиск маршрута
+    .search__body
       button.search_invert(@click='invertRoute')
         svg(width='11', height='74', viewBox='0 0 11 74', fill='none', xmlns='http://www.w3.org/2000/svg')
           path(d='M8.92188 64.5234H3.84375V66.7266H5.67188C7.01042 66.7266 8.07031 67.0521 8.85156 67.7031C9.63802 68.349 10.0312 69.2214 10.0312 70.3203C10.0312 71.4245 9.64062 72.3125 8.85938 72.9844C8.08333 73.651 7.04948 73.9896 5.75781 74H1.47656V62.625H8.92188V64.5234ZM3.84375 68.6172V72.1172H5.71094C6.3099 72.1172 6.78646 71.9531 7.14062 71.625C7.5 71.2969 7.67969 70.8568 7.67969 70.3047C7.67969 69.7891 7.50781 69.3828 7.16406 69.0859C6.82552 68.7839 6.35938 68.6276 5.76562 68.6172H3.84375Z', fill='white')
@@ -13,91 +13,8 @@
         input.search__input(v-model="routeTo",placeholder="Куда (улица, дом, нас. пункт, организация)", onfocus="this.placeholder=''", onblur="this.placeholder='Куда (улица, дом, нас. пункт, организация)'")
 </template>
 
-<style lang="scss" scoped>
-.wrapper {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: auto;
-  height: auto;
-  z-index: 400;
-}
-</style>
-
 <style lang="scss">
-.search {
-  &__route {
-    width: 460px;
-    max-width: 100%;
-    height: auto;
-    background: #21242b;
-    border-radius: 3px;
-    padding: 20px 15px;
-  }
-
-  &_name {
-    color: #fff;
-    font-size: 16px;
-    line-height: 19px;
-    margin-bottom: 16px;
-  }
-
-  &_body {
-    display: flex;
-    flex: 1 0 100%;
-    justify-content: space-between;
-    align-items: stretch;
-  }
-
-  &__input {
-    width: 100%;
-    max-width: 360px;
-    max-height: 45px;
-    padding: 13px 13px 14px 13px;
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 3px;
-    color: #fff;
-
-    &::placeholder {
-      font-size: 16px;
-      line-height: 19px;
-      color: rgba(255, 255, 255, 0.75);
-    }
-
-    &:focus {
-      border-color: rgba(255, 255, 255, 0.75);
-    }
-
-    &_wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-content: space-between;
-    }
-  }
-
-  &_invert {
-    width: 100%;
-    max-width: 45px;
-    height: 100px;
-    margin-right: 10px;
-    color: #fff;
-    background: #21242b;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 3px;
-
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.45);
-    }
-
-    &:focus {
-      border-color: #ff7733;
-    }
-  }
-}
+@import "./search";
 </style>
 
 <script>
@@ -106,11 +23,7 @@ export default {
   data() {
     return {
       routeFrom: "",
-      routeTo: "",
-      placeholders: {
-        from: "",
-        to: ""
-      }
+      routeTo: ""
     };
   },
   methods: {

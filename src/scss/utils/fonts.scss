@@ -1,4 +1,3 @@
 // Fonts here
-// @include font-face("Museo", "/assets/fonts/MuseoSansThin/MuseoSansThin", 300, normal);
-// @include font-face("Museo", "/assets/fonts/MuseoSansMedium/MuseoSansMedium", 500, normal);
-// @include font-face("Museo", "/assets/fonts/MuseoSansBold/MuseoSansBold", 700, normal);
+@include font-face('Roboto', '/assets/static/fonts/RobotoBold/RobotoBold', 700, bold);
+@include font-face('Roboto', '/assets/static/fonts/RobotoRegular/RobotoRegular', 400, normal);

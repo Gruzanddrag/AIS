@@ -1,9 +1,6 @@
 // core
 @import 'utils/vars';
 @import 'utils/libs';
-@import 'utils/mixins';
-@import 'utils/fonts';
-@import 'utils/typography';
 
 // comon
 ::placeholder {
@@ -23,7 +20,7 @@ button {
 }
 
 body {
-  font-size: $mainFontSize;
+  font-size: rem($mainFontSize);
   min-width: 320px;
   position: relative;
   line-height: 1.65;

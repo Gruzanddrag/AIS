@@ -6,7 +6,7 @@ import "./scss/main.scss";
 import Vue from "vue";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Map from "./templates/components/map/Map";
+import Map from "./templates/components/map/Map--client";
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -16,6 +16,6 @@ Icon.Default.mergeOptions({
 export const userLocationBus = new Vue();
 
 new Vue({
-  el: "#main",
+  el: "#map",
   render: h => h(Map)
 });

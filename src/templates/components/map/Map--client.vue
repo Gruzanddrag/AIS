@@ -3,11 +3,26 @@
   map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="initialLocation" :options="{zoomControl: false}", ref="osm")
     map-Tile(:url="url")
     map-Marker(:lat-lng="marker")
-  searchRoute
-  searchTransport
+  .wrapper__search
+    searchRoute
+    searchTransport
+    routeList
   mapControls
   userControls
 </template>
+
+<style lang="scss">
+.wrapper {
+  &__search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: auto;
+    height: auto;
+    z-index: 400;
+  }
+}
+</style>
 
 <script>
 // eslint-disable-next-line no-unused-vars
@@ -16,7 +31,8 @@ import searchRoute from "../search/search-route";
 import searchTransport from "../search/search-transport";
 import mapControls from "../controls/contols-map";
 import userControls from "../controls/controls-user";
-import { userLocationBus } from "../../../index";
+import { userLocationBus } from "~src/index";
+import RouteList from "../list/route-list";
 
 export default {
   name: "Map",
@@ -27,7 +43,8 @@ export default {
     searchRoute,
     searchTransport,
     mapControls,
-    userControls
+    userControls,
+    routeList: RouteList
   },
   props: {
     initialLocation: {

@@ -1,8 +1,13 @@
+@import './mixins';
 //colors
 $accent: #21242b;
 $hover: #ffccb2;
 $focus: #ff7733;
+$fill-hover: #bcc1cc;
 //font
 $default-font: 'Roboto';
 $text: #000;
-$mainFontSize: 16px;
+$mainFontSize: 16;
+
+//typo
+@import './typography';

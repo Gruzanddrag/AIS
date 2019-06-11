@@ -1,0 +1,15 @@
+.paragraph,
+.header {
+  font-family: $default-font;
+  font-style: normal;
+  font-size: rem($mainFontSize);
+  line-height: rem(19);
+}
+
+.header {
+  font-weight: bold;
+}
+
+.paragraph {
+  font-weight: normal;
+}

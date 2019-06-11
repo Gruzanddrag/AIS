@@ -1,0 +1,86 @@
+@import '../search/search.scss';
+
+.route {
+  &-list {
+    @extend .search__route;
+    padding: 0;
+
+    &__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    &__name {
+      @extend .search__name;
+      margin-bottom: 0;
+    }
+
+    &__filter {
+      width: 100%;
+      max-width: 140px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  &__filter {
+    &__label {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        .route__filter__checkbox {
+          ~ .route__filter__checkmark {
+            path {
+              fill: $fill-hover;
+            }
+          }
+        }
+      }
+
+      .route__filter__checkbox {
+        &:checked {
+          ~ .route__filter__checkmark {
+            &.--minibus {
+              path {
+                fill: #80ffd5;
+              }
+            }
+
+            &.--tram {
+              path {
+                fill: #80d4ff;
+              }
+            }
+
+            &.--trolleybus {
+              path {
+                fill: #d580ff;
+              }
+            }
+
+            &.--bus {
+              path {
+                fill: #ff80aa;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__checkbox {
+      position: absolute;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      border: none;
+      cursor: pointer;
+    }
+  }
+}

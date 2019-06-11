@@ -65,7 +65,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[hash].[ext]',
+              name: 'static/fonts/[name].[hash].[ext]',
               mimetype: 'application/font-woff',
               publicPath: '../',
             },
@@ -136,6 +136,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: `${PATHS.assets}css/[name].[hash].css`,
     }),
+    new CopyWebpackPlugin([
+      { from: `${PATHS.src}/static/img`, to: `${PATHS.assets}static/img` },
+      { from: `${PATHS.src}/static/fonts`, to: `${PATHS.assets}static/fonts` },
+    ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: `${PATHS.src}/index.pug`,
@@ -145,6 +149,7 @@ module.exports = {
     alias: {
       vue$: 'vue/dist/vue.esm.js',
       '~leaflet': path.join(__dirname, 'node_modules/leaflet'),
+      '~src': `${PATHS.src}/`,
     },
     extensions: ['*', '.js', '.vue', '.json'],
   },

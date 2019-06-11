@@ -1,5 +1,5 @@
 <template lang="pug">
-.wrapper
+.wrapper__controls_user
   .control__user_wrapper
     button.btn__control_user
       svg.btn__control_user_svg(width='19', height='22', viewBox='0 0 19 22', fill='none', xmlns='http://www.w3.org/2000/svg')
@@ -13,16 +13,18 @@
         path.is-filled(d='M3.37273 7.15527H4.6634C5.01669 7.15527 5.29932 7.4379 5.29932 7.79119C5.29932 8.14447 5.01669 8.4271 4.6634 8.4271H3.37273C3.01944 8.4271 2.73681 8.14447 2.73681 7.79119C2.73681 7.4379 3.01944 7.15527 3.37273 7.15527Z', fill='white')
 </template>
 
-<style lang="scss" scoped>
-.wrapper {
-  position: absolute;
-  bottom: 30px;
-  right: 10px;
-  z-index: 400;
-}
-</style>
-
 <style lang="scss">
+.wrapper {
+  &__controls {
+    &_user {
+      position: absolute;
+      bottom: 25px;
+      right: 10px;
+      z-index: 400;
+    }
+  }
+}
+
 .control {
   &__user {
     &_wrapper {

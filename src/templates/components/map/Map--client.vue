@@ -8,7 +8,7 @@
     searchTransport
     routeList
   mapControls
-  userControls
+
 </template>
 
 <style lang="scss">
@@ -30,8 +30,7 @@ import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import searchRoute from "../search/search-route";
 import searchTransport from "../search/search-transport";
 import mapControls from "../controls/contols-map";
-import userControls from "../controls/controls-user";
-import { userLocationBus } from "~src/index";
+import { userLocationBus } from "~src/main";
 import RouteList from "../list/route-list";
 
 export default {
@@ -43,7 +42,7 @@ export default {
     searchRoute,
     searchTransport,
     mapControls,
-    userControls,
+    //userControls,
     routeList: RouteList
   },
   props: {

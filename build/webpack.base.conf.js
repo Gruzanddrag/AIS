@@ -19,7 +19,7 @@ module.exports = {
     paths: PATHS,
   },
   entry: {
-    app: PATHS.src,
+    app: `${PATHS.src}/main.js`,
   },
   output: {
     filename: `${PATHS.assets}js/[name].[hash].js`,
@@ -142,7 +142,7 @@ module.exports = {
     ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: `${PATHS.src}/index.pug`,
+      template: `${PATHS.src}/app.pug`,
     }),
   ],
   resolve: {

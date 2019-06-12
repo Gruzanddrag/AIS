@@ -58,7 +58,7 @@
 </style>
 
 <script>
-import { userLocationBus } from "~src/index";
+import { userLocationBus } from "~src/main";
 
 export default {
   name: "MapControls",

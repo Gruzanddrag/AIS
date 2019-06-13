@@ -12,6 +12,5 @@ export default new VueRouter({
       path: "/login",
       component: LoginPage
     }
-  ],
-  mode: "history"
+  ]
 });

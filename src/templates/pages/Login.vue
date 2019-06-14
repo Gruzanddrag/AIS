@@ -34,6 +34,7 @@
     @extend .paragraph;
 
     font-size: rem(24);
+    font-weight: 300;
     line-height: rem(36);
     color: $white;
     text-align: center;

@@ -9,6 +9,7 @@
     color: $white;
     margin-bottom: 20px;
   }
+
   &__wrapper {
     width: 100%;
     max-width: 360px;
@@ -21,6 +22,9 @@
 
   &__input {
     @extend .form-login_default;
+
+    font-weight: 300;
+
     &::placeholder {
       color: #b3b3b3;
     }
@@ -32,11 +36,87 @@
 
   &__submit {
     @extend .form-login_default;
+
+    font-weight: 300;
     border-color: $accent;
     color: #b3b3b3;
 
     &:hover {
       background-color: $accent-hover;
+    }
+  }
+
+  &__checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    border: none;
+    z-index: -1;
+
+    &__label {
+      @extend .paragraph;
+
+      display: block;
+      margin-bottom: 25px;
+      position: relative;
+      padding: 5px 0 5px 35px;
+      font-weight: 300;
+      cursor: pointer;
+      color: #b3b3b3;
+      user-select: none;
+      align-self: flex-start;
+
+      &:hover {
+        .form-login__checkbox {
+          ~ .form-login__checkbox__checkmark {
+            background-color: $accent-hover;
+          }
+        }
+      }
+
+      .form-login__checkbox {
+        &:checked {
+          ~ .form-login__checkbox__checkmark {
+            border-color: $white;
+
+            &::after {
+              display: block;
+            }
+          }
+        }
+      }
+
+      .form-login__checkbox__checkmark {
+        &::after {
+          left: 10px;
+          top: 5px;
+          width: 7px;
+          height: 12px;
+          border: solid $white;
+          border-width: 0 3px 3px 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+
+    &__checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 28px;
+      height: 28px;
+      background-color: $accent;
+      border: 1px solid #b1b1b1;
+      box-sizing: border-box;
+      border-radius: 3px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        display: none;
+      }
     }
   }
 }

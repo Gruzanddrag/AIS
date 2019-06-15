@@ -1,5 +1,13 @@
 @import '../search/search.scss';
 
+.wrapper {
+  &__route {
+    &__list {
+      transition: 0.3s ease;
+    }
+  }
+}
+
 .route {
   &-list {
     @extend .search__route;
@@ -26,7 +34,7 @@
     }
 
     &__item {
-      &_pane {
+      &__pane {
         display: flex;
         padding: 8px 20px;
         justify-content: space-between;
@@ -37,11 +45,50 @@
           cursor: pointer;
           background-color: $white-hover;
         }
+
+        &:not(.collapsed) {
+          .route-list__item__chevron {
+            transform: rotate(0);
+          }
+        }
       }
 
-      &_descr {
+      &__descr {
         @extend .paragraph;
         margin-bottom: 0;
+      }
+
+      &__body {
+        padding: 20px 0;
+        background: $accent;
+      }
+
+      &__path {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 5px 20px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: rgba($color: $white, $alpha: 0.15);
+        }
+
+        &:nth-last-of-type(1) {
+          .path__marker__wrapper {
+            .path__marker {
+              &::after {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      &__chevron {
+        transform: rotate(180deg);
+        transition: transform 0.3s ease;
       }
     }
   }
@@ -101,6 +148,50 @@
       width: 0;
       border: none;
       cursor: pointer;
+    }
+  }
+}
+
+.path {
+  &__info {
+    &__wrapper {
+      margin-left: 10px;
+    }
+  }
+
+  &__name {
+    @extend .paragraph;
+    margin-bottom: 7px;
+    color: $white;
+  }
+
+  &__distance {
+    @extend .paragraph;
+    margin-bottom: 5px;
+    color: rgba($color: $white, $alpha: 0.45);
+  }
+
+  &__marker {
+    width: $marker-wh;
+    height: $marker-wh;
+    margin-top: 2px;
+    border-radius: 50%;
+    background-color: $hover;
+
+    &__wrapper {
+      position: relative;
+    }
+
+    &::after {
+      position: absolute;
+      top: $marker-wh;
+      left: 50%;
+      display: block;
+      content: '';
+      width: 2px;
+      height: 100%;
+      background-color: $hover;
+      transform: translateX(-50%);
     }
   }
 }

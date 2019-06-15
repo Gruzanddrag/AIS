@@ -1,5 +1,5 @@
 <template lang="pug">
-.wrapper__route_list
+.wrapper__route_list(v-if="transportRoute.length != 0")
   .route-list
     .route-list__head
       h2.route-list__name На маршруте
@@ -50,14 +50,19 @@
             path(d='M5.06419 23C3.82354 23 2.81738 21.9817 2.81738 20.7357V19.249C2.81738 18.8065 3.17551 18.4456 3.61464 18.4456H6.518C6.95713 18.4456 7.31525 18.8065 7.31525 19.249V20.7357C7.31525 21.986 6.30483 23 5.06419 23ZM4.40762 20.0525V20.7357C4.40762 21.1009 4.7018 21.3974 5.06419 21.3974C5.42657 21.3974 5.72075 21.1009 5.72075 20.7357V20.0525H4.40762Z', fill='#85878B')
             path(d='M14.9211 23C13.6805 23 12.6743 21.9817 12.6743 20.7357V19.249C12.6743 18.8065 13.0324 18.4456 13.4716 18.4456H16.3749C16.8141 18.4456 17.1722 18.8065 17.1722 19.249V20.7357C17.1722 21.986 16.1618 23 14.9211 23ZM14.2646 20.0525V20.7357C14.2646 21.1009 14.5587 21.3974 14.9211 21.3974C15.2835 21.3974 15.5777 21.1009 15.5777 20.7357V20.0525H14.2646Z', fill='#85878B')
     .route-list__body(role="tablist")
-      .route-list__item
-        .route-list__item_pane(v-b-toggle)
-          p.route-list__item_descr 54 мин
-          svg.route-list__item_chevron(width='18', height='11', viewBox='0 0 18 11', fill='none', xmlns='http://www.w3.org/2000/svg')
+      .route-list__item(v-for="route, index in transportRoute", :key="index", role="tab")
+        .route-list__item__pane(v-b-toggle="'path__' + index", variant="info")
+          p.route-list__item__descr {{ route.routeTime }} мин
+          svg.route-list__item__chevron(width='18', height='11', viewBox='0 0 18 11', fill='none', xmlns='http://www.w3.org/2000/svg')
             path(d='M9 9L8.29289 9.70711L9 10.4142L9.70711 9.70711L9 9ZM0.292893 1.70711L8.29289 9.70711L9.70711 8.29289L1.70711 0.292893L0.292893 1.70711ZM9.70711 9.70711L17.7071 1.70711L16.2929 0.292893L8.29289 8.29289L9.70711 9.70711Z', fill='#252525')
-          p.route-list__item_descr нет пересадок
-
-
+          p.route-list__item__descr(v-if="!route.routeTransfer") нет пересадок
+        b-collapse.route-list__item__body(:id="'path__' + index", accordion="route__paths" role="tabpanel")
+          .route-list__item__path(v-for="path in route.routePaths")
+            .path__marker__wrapper
+              .path__marker
+            .path__info__wrapper
+              .path__name {{ path.pathName }}, {{ path.pathAddress }}
+              .path__distance {{ path.pathLength }} м, {{ path.pathType }}
 </template>
 
 <style lang="scss">
@@ -73,7 +78,45 @@ export default {
   directives: { BToggle: VBToggle },
   data() {
     return {
-      transportTypes: ["minibus", "tram", "trolleybus", "bus"]
+      transportTypes: ["minibus", "tram", "trolleybus", "bus"],
+      transportRoute: [
+        {
+          routeTime: 44,
+          routeTransfers: false,
+          routePaths: [
+            {
+              pathName: "Кунгурова",
+              pathAddress: 22,
+              pathLength: 200,
+              pathType: "пешком"
+            },
+            {
+              pathName: "Акеллова",
+              pathAddress: 23,
+              pathLength: 800,
+              pathType: "ползком"
+            }
+          ]
+        },
+        {
+          routeTime: 24,
+          routeTransfers: false,
+          routePaths: [
+            {
+              pathName: "Кунгурова",
+              pathAddress: 22,
+              pathLength: 200,
+              pathType: "пешком"
+            },
+            {
+              pathName: "Акеллова",
+              pathAddress: 23,
+              pathLength: 800,
+              pathType: "ползком"
+            }
+          ]
+        }
+      ]
     };
   }
 };

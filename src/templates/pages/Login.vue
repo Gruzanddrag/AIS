@@ -1,5 +1,5 @@
 <template lang="pug">
-.login__wrapper
+.login__wrapper(style='background-image: url(./assets/static/img/login-bg.jpg);')
   .login__container
     p.login__descr.
       Региональная система управления автомобильным транспортом
@@ -22,7 +22,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("/assets/static/img/login-bg.jpg");
   }
 
   &__container {

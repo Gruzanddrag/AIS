@@ -4,8 +4,8 @@
     .route-list__head
       h2.route-list__name На маршруте
       .route-list__filter
-        label.route__filter__label(v-for="transport in transports")
-          input.route__filter__checkbox(type='checkbox', name='route', :checked='transport.isChecked', :data-targetRoute='transport.type', @change='hideRoute')
+        label.route__filter__label(v-for="transport in transportList")
+          input.route__filter__checkbox(type='checkbox', name='route', :checked='transport.isChecked', :data-targetRoute='transport.type', @change="hideRoute")
           svg.route__filter__checkmark.--minibus(width='18', height='21', viewBox='0 0 18 21', v-if="transport.type == 'minibus'")
             path(d='M13.5959 18.0315H4.40407C1.97395 18.0315 0 16.0237 0 13.5615V4.47435C0 2.0035 1.97395 0 4.40407 0H13.5959C16.0261 0 18 2.0035 18 4.47002V13.5572C18 16.0237 16.0261 18.0315 13.5959 18.0315ZM4.40407 1.61838C2.8522 1.61838 1.59024 2.89924 1.59024 4.47435V13.5615C1.59024 15.1366 2.8522 16.4175 4.40407 16.4175H13.5959C15.1478 16.4175 16.4098 15.1366 16.4098 13.5615V4.47435C16.4098 2.89924 15.1478 1.61838 13.5959 1.61838H4.40407Z', fill='#85878B')
             path(d='M16.5118 11.5017H1.48768C1.04855 11.5017 0.69043 11.1382 0.69043 10.6925C0.69043 10.2468 1.04855 9.8833 1.48768 9.8833H16.5118C16.951 9.8833 17.3091 10.2468 17.3091 10.6925C17.3091 11.1382 16.951 11.5017 16.5118 11.5017Z', fill='#85878B')
@@ -70,12 +70,13 @@ export default {
   name: "RouteList",
   components: { BCollapse },
   directives: { BToggle: VBToggle },
-  data() {
-    return {
-      transports: [
+  props: {
+    transportList: {
+      type: [Array, Object],
+      default: () => [
         {
           type: "minibus",
-          isChecked: false
+          isChecked: true
         },
         {
           type: "tram",
@@ -83,17 +84,58 @@ export default {
         },
         {
           type: "trolleybus",
-          isChecked: false
+          isChecked: true
         },
         {
           type: "bus",
-          isChecked: false
+          isChecked: true
         }
-      ],
-      transportRoute: [
+      ]
+    },
+    transportRoute: {
+      type: [Array, Object],
+      default: () => [
         {
           routeType: "minibus",
           routeTime: 44,
+          routeTransfers: false,
+          routePaths: [
+            {
+              pathName: "Кунгурова",
+              pathAddress: 22,
+              pathLength: 200,
+              pathType: "пешком"
+            },
+            {
+              pathName: "Акеллова",
+              pathAddress: 23,
+              pathLength: 800,
+              pathType: "ползком"
+            }
+          ]
+        },
+        {
+          routeType: "tram",
+          routeTime: 14,
+          routeTransfers: false,
+          routePaths: [
+            {
+              pathName: "Кунгурова",
+              pathAddress: 22,
+              pathLength: 200,
+              pathType: "пешком"
+            },
+            {
+              pathName: "Акеллова",
+              pathAddress: 23,
+              pathLength: 800,
+              pathType: "ползком"
+            }
+          ]
+        },
+        {
+          routeType: "trolleybus",
+          routeTime: 5,
           routeTransfers: false,
           routePaths: [
             {
@@ -130,20 +172,28 @@ export default {
           ]
         }
       ]
-    };
+    }
+  },
+  mounted: function() {
+    this.hideRoute();
   },
   methods: {
-    hideRoute: () => {
-      var target = event.target.dataset.targetroute;
-      var routes = document.querySelectorAll("[data-route]");
-
-      routes.forEach(route => {
-        if (route.dataset.route == target) {
-          console.log(route);
-        } else {
-          console.log("error");
+    hideRoute() {
+      let targetCallers = document.querySelectorAll("[data-targetroute]");
+      let targetsList = document.querySelectorAll("[data-route]");
+      let chckInp = [];
+      for (let i = 0; i < targetCallers.length; i++) {
+        if (targetCallers[i].checked) {
+          // eslint-disable-next-line no-unused-vars
+          let checked = chckInp.push(targetCallers[i].dataset.targetroute);
         }
-      });
+      }
+      for (let i = 0; i < targetsList.length; i++) {
+        targetsList[i].classList.add("is-hidden");
+        if (chckInp.includes(targetsList[i].dataset.route)) {
+          targetsList[i].classList.remove("is-hidden");
+        }
+      }
     }
   }
 };

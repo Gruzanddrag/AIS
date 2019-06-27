@@ -1,11 +1,15 @@
 <template lang="pug">
-- var menuArray = ['Данные', 'Правка', 'Документы', 'Отчеты', 'Мониторинг', 'Контроль', 'Информирование', 'Статистика и аналитика','Жалобы и предложения'];
+- var menuArray = [{'name': 'Данные','link': 'data', 'items': ['Администрирование', 'Импорт отчетов', 'Экспорт отчетов', 'Печать']},{'name': 'Правка','link': 'edit','items': ['Добавление', 'Удаление', 'Копировать']},{'name': 'Документы','link': 'documents'},{'name': 'Отчеты','link': 'report'},{'name': 'Мониторинг','link': 'monitor'},{'name':'Контроль','link': 'control'},{'name': 'Информирование','link': 'info'},{'name': 'Статистика и аналитика','link': 'stats'},{'name': 'Жалобы и предложения','link': 'suggest'}];
 - var userName = "Алексеев А.";
 
 nav.menu-wrapper
   .menu__item-wrapper
-    each val in menuArray
-      a.menu__item(href="#")= val
+    each item in menuArray
+      a.menu__item(href='#' + item.link, @click="setActive")= item.name
+        if item.items != undefined
+          .menu__item_submenu
+            each subitem in item.items
+              a= subitem
   .menu__user-account
     p #{userName}
     a(href="#") Выход
@@ -49,6 +53,23 @@ nav.menu-wrapper
       height: 2px;
       background-color: $white;
     }
+
+    &_submenu {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      display: none;
+      flex-direction: column;
+      padding: 15px 20px;
+      background-color: $accent;
+      border-radius: 3px;
+    }
+
+    &.is-active {
+      .menu__item_submenu {
+        display: flex;
+      }
+    }
   }
 
   &__user {
@@ -66,6 +87,13 @@ nav.menu-wrapper
 
 <script>
 export default {
-  name: "Menubar"
+  name: "Menubar",
+  methods: {
+    setActive: function(event) {
+      event.preventDefault();
+      let currentItem = event.target;
+      currentItem.classList.toggle("is-active");
+    }
+  }
 };
 </script>

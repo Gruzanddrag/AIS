@@ -92,7 +92,14 @@ export default {
     setActive: function(event) {
       event.preventDefault();
       let currentItem = event.target;
-      currentItem.classList.toggle("is-active");
+      let items = document.querySelectorAll(".menu__item");
+      currentItem.classList.add("is-active");
+
+      items.forEach(item => {
+        if (item.classList.contains("is-active") && event.target != item) {
+          item.classList.toggle("is-active");
+        }
+      });
     }
   }
 };

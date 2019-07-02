@@ -93,12 +93,19 @@ export default {
       event.preventDefault();
       let currentItem = event.target;
       let items = document.querySelectorAll(".menu__item");
+      let map = document.querySelector(".vue2leaflet-map");
       currentItem.classList.add("is-active");
 
       items.forEach(item => {
         if (item.classList.contains("is-active") && event.target != item) {
           item.classList.toggle("is-active");
         }
+
+        map.addEventListener("click", function() {
+          if (item.classList.contains("is-active")) {
+            item.classList.remove("is-active");
+          }
+        });
       });
     }
   }

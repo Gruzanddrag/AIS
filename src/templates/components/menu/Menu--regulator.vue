@@ -1,18 +1,19 @@
 <template lang="pug">
-- var menuArray = [{'name': 'Данные','link': 'data', 'items': ['Администрирование', 'Импорт отчетов', 'Экспорт отчетов', 'Печать']},{'name': 'Правка','link': 'edit','items': ['Добавление', 'Удаление', 'Копировать']},{'name': 'Документы','link': 'documents'},{'name': 'Отчеты','link': 'report'},{'name': 'Мониторинг','link': 'monitor'},{'name':'Контроль','link': 'control'},{'name': 'Информирование','link': 'info'},{'name': 'Статистика и аналитика','link': 'stats'},{'name': 'Жалобы и предложения','link': 'suggest'}];
 - var userName = "Алексеев А.";
 
 nav.menu-wrapper
   .menu__item-wrapper
-    each item in menuArray
-      a.menu__item(href='#' + item.link, @click="setActive")= item.name
-        if item.items != undefined
-          .menu__item_submenu
-            each subitem in item.items
-              a= subitem
+      a.menu__item(v-for="item in menu", :href="'#' + item.link", :data-target="'#' + item.link", @click="setActive") {{ item.name }}
+          .menu__item_submenu(v-if="item.items != undefined")
+              a(v-for="submenu in item.items") {{ submenu }}
   .menu__user-account
     p #{userName}
     a(href="#") Выход
+  .menu--statistics
+    .menu--statistics__sidebar
+      p some info
+    .menu--statistics__main
+      p some info
 </template>
 
 <style lang="scss">
@@ -82,12 +83,70 @@ nav.menu-wrapper
       }
     }
   }
+
+  &--statistics {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: calc(100% - 56px);
+    background: rgba(33, 36, 43, 0.9);
+    color: #fff;
+    transition: transform 1s ease;
+    transform: translateX(-100%);
+
+    &__sidebar {
+      width: 100%;
+      max-width: 320px;
+      height: 100%;
+      padding: 15px 20px 15px 30px;
+      background: rgba(33, 36, 43, 0.95);
+    }
+
+    &__main {
+      width: 100%;
+      padding: 25px 85px 60px 80px;
+    }
+
+    &.is-active {
+      transform: translateX(0);
+    }
+  }
 }
 </style>
 
 <script>
 export default {
   name: "Menubar",
+  data() {
+    return {
+      menu: [
+        {
+          name: "Данные",
+          link: "data",
+          items: [
+            "Администрирование",
+            "Импорт отчетов",
+            "Экспорт отчетов",
+            "Печать"
+          ]
+        },
+        {
+          name: "Правка",
+          link: "edit",
+          items: ["Добавление", "Удаление", "Копировать"]
+        },
+        { name: "Документы", link: "documents" },
+        { name: "Отчеты", link: "report" },
+        { name: "Мониторинг", link: "monitor" },
+        { name: "Контроль", link: "control" },
+        { name: "Информирование", link: "info" },
+        { name: "Статистика и аналитика", link: "stats" },
+        { name: "Жалобы и предложения", link: "suggest" }
+      ]
+    };
+  },
   methods: {
     setActive: function(event) {
       event.preventDefault();
@@ -99,6 +158,12 @@ export default {
       items.forEach(item => {
         if (item.classList.contains("is-active") && event.target != item) {
           item.classList.toggle("is-active");
+        } else if (
+          item.classList.contains("is-active") &&
+          item.dataset.target == "#stats"
+        ) {
+          let stats = document.querySelector(".menu--statistics");
+          stats.classList.add("is-active");
         }
 
         map.addEventListener("click", function() {

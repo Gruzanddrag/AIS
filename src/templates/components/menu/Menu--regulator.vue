@@ -64,6 +64,7 @@ nav.menu-wrapper
       padding: 15px 20px;
       background-color: $accent;
       border-radius: 3px;
+      z-index: 500;
     }
 
     &.is-active {
@@ -91,7 +92,7 @@ nav.menu-wrapper
     bottom: 0;
     left: 0;
     height: calc(100% - 56px);
-    background: rgba(33, 36, 43, 0.9);
+    background: rgba(33, 36, 43, 0.65);
     color: #fff;
     transition: transform 1s ease;
     transform: translateX(-100%);
@@ -101,7 +102,7 @@ nav.menu-wrapper
       max-width: 320px;
       height: 100%;
       padding: 15px 20px 15px 30px;
-      background: rgba(33, 36, 43, 0.95);
+      background: rgba(33, 36, 43, 0.35);
     }
 
     &__main {

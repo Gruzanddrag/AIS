@@ -118,6 +118,8 @@ nav.menu-wrapper
 </style>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Menubar",
   data() {
@@ -147,6 +149,15 @@ export default {
         { name: "Жалобы и предложения", link: "suggest" }
       ]
     };
+  },
+  mounted() {
+    axios
+      .get("http://165.22.244.227/auth/geozones", {
+        headers: { Authorization: `Bearer ${localStorage.access_token}` }
+      })
+      .then(res => {
+        console.log(res);
+      });
   },
   methods: {
     setActive: function(event) {

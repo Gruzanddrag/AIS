@@ -62,12 +62,6 @@ import { userLocationBus } from "~src/main";
 
 export default {
   name: "MapControls",
-  props: {
-    userLocation: {
-      type: [Object, Array],
-      default: () => [45.044502, 41.969065]
-    }
-  },
   methods: {
     zoomIn() {
       this.$parent.$refs.osm.mapObject.zoomIn();
@@ -75,8 +69,19 @@ export default {
     zoomOut() {
       this.$parent.$refs.osm.mapObject.zoomOut();
     },
+    geolocation() {
+      if (navigator.geolocation) {
+        var self = this;
+        let cordsArray = [];
+        navigator.geolocation.getCurrentPosition(function(position) {
+          self.position = position.coords;
+          cordsArray.push(self.position.latitude, self.position.longitude);
+        });
+        return cordsArray;
+      }
+    },
     findLocation() {
-      userLocationBus.$emit("placeMarker", this.userLocation);
+      userLocationBus.$emit("placeMarker", this.geolocation());
     }
   }
 };

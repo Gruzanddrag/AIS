@@ -19,6 +19,7 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.7",
     "vue2-leaflet": "^2.1.1",
+    "vue2-leaflet-locatecontrol": "^1.0.1",
     "vuelidate": "^0.7.4"
   },
   "devDependencies": {

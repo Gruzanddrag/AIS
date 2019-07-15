@@ -76,6 +76,7 @@ export default {
         navigator.geolocation.getCurrentPosition(function(position) {
           self.position = position.coords;
           cordsArray.push(self.position.latitude, self.position.longitude);
+          self.$parent.$refs.osm.mapObject.setView(cordsArray, self.zoom);
         });
         return cordsArray;
       }

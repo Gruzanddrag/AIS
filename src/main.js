@@ -3,6 +3,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import vuetify from './vtf'
+// import 'vuetify/dist/vuetify.min.css'
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -22,6 +24,7 @@ export const userLocationBus = new Vue();
 
 new Vue({
   el: "#map",
+  vuetify,
   render: h => h(App),
   router
 });

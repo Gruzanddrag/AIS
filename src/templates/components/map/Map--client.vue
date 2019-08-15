@@ -2,7 +2,7 @@
 .mapcont
   map-Map(style="width: 100%, height: 100%", :zoom="zoom", :center="initialLocation" :options="{zoomControl: false}", ref="osm")
     map-Tile(:url="url")
-    map-Marker(:lat-lng="marker")
+    map-Marker(:lat-lng="marker", ref="myGeo")
   .wrapper__search
     searchRoute
     searchTransport
@@ -32,6 +32,8 @@ import searchTransport from "../search/search-transport";
 import mapControls from "../controls/contols-map";
 import { userLocationBus } from "~src/main";
 import RouteList from "../list/route-list";
+import { setInterval } from "timers";
+import axios from "axios";
 
 export default {
   name: "Map",
@@ -58,13 +60,40 @@ export default {
   data() {
     return {
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-      marker: [-100, -100]
+      marker: [-100, -100],
+      sessionID: "",
+      cars: []
     };
   },
   created() {
     userLocationBus.$on("placeMarker", cords => {
+      this.$refs.myGeo.mapObject.bindPopup("MY GEO");
       return (this.marker = cords);
     });
+  },
+  mounted() {
+    //TODO: Сделать это как вход или что-то типа подобного!
+    axios
+      .get("http://194.58.104.20/Login.php?login=Диспетчер&password=12345678")
+      .then(res => {
+        this.sessionID = res.data.SessionId; // сохраняем id сессиии
+        return res.data.SessionId;
+      })
+      .then(sessoinID => {
+        //После получения id сессии получаем сразу же список машин
+        axios
+          .get("http://194.58.104.20/GetVehicles.php", {
+            params: {
+              sessionid: sessoinID
+            }
+          })
+          .then(res => {
+            this.cars = res.data; //сохраняем данные о машинах
+            console.log(this.cars);
+          });
+      });
+    //начинаем опрашивать сервак
+    setInterval(() => {}, 100);
   }
 };
 </script>

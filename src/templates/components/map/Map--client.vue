@@ -34,6 +34,14 @@ import { userLocationBus } from "~src/main";
 import RouteList from "../list/route-list";
 import { setInterval } from "timers";
 import axios from "axios";
+import { mapState } from "vuex";
+
+var carIcon = L.icon({
+  iconUrl: "./assets/static/img/car.png",
+  iconSize: [64, 64], // size of the icon
+  iconAnchor: [32, 32], // point of the icon which will correspond to marker's location
+  popupAnchor: [0, -20] // point from which the popup should open relative to the iconAnchor
+});
 
 export default {
   name: "Map",
@@ -62,15 +70,16 @@ export default {
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
       marker: [-100, -100],
       sessionID: "",
-      cars: []
+      cars: [],
+      carMarkers: []
     };
   },
   created() {
     userLocationBus.$on("placeMarker", cords => {
-      this.$refs.myGeo.mapObject.bindPopup("MY GEO");
       return (this.marker = cords);
     });
   },
+  computed: mapState(["carsGeo"]),
   mounted() {
     //TODO: Сделать это как вход или что-то типа подобного!
     axios
@@ -88,12 +97,69 @@ export default {
             }
           })
           .then(res => {
-            this.cars = res.data; //сохраняем данные о машинах
-            console.log(this.cars);
+            this.cars = res.data; //сохраняем данные пше  о машинах
+            this.cars.forEach(car => {
+              this.carMarkers[car.vehicleId] = L.marker([-100, -100], {
+                title: car.stateNumber,
+                icon: carIcon
+              })
+                .bindPopup(
+                  "<i style='color: blue'>" +
+                    car.deviceType +
+                    "</i> <br/> <b>" +
+                    car.stateNumber +
+                    "</b>"
+                )
+                .addTo(this.$refs.osm.mapObject);
+              // console.log(this.carMarkers);
+            });
           });
       });
     //начинаем опрашивать сервак
-    setInterval(() => {}, 100);
+    setInterval(() => {
+      axios
+        .get("http://194.58.104.20/GetVehicleLastLocations.php", {
+          params: {
+            sessionid: this.sessionID
+          }
+        })
+        .then(res => {
+          let newCarsGeo = [];
+          res.data.forEach(el => {
+            newCarsGeo.push({
+              vehicleId: el.vehicleId,
+              timestamp: el.timestamp,
+              latitude: el.latitude,
+              longitude: el.longitude,
+              direction: el.direction,
+              speed: el.speed,
+              altitude: el.altitude,
+              ignition: el.ignition,
+              alarm: el.alarm,
+              address: el.address
+            });
+          });
+          console.log(newCarsGeo[0].latitude + " " + newCarsGeo[0].longitude);
+          this.$store.commit("updateGeo", newCarsGeo); //Отправляю данные в сторадж
+        });
+    }, 500);
+    this.$store.watch(
+      (state, getters) => getters.carsGeo,
+      (newValue, oldValue) => {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          console.log("PROIZOSHEL UPDATE");
+          this.$store.state.carsGeo.forEach(car => {
+            this.carMarkers[car.vehicleId].setLatLng([
+              car.latitude,
+              car.longitude
+            ]); //двигаю маркеры (надо еще будет обсудить, так как походу надо будет еще внутри массива смотреть измнилось ли шо, ведь когда у меня одна машина пошевелилась он будет всем маркеры обновлять, но эт потом)
+          });
+        }
+      },
+      {
+        deep: true
+      }
+    );
   }
 };
 </script>

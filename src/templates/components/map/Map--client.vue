@@ -124,23 +124,7 @@ export default {
           }
         })
         .then(res => {
-          let newCarsGeo = [];
-          res.data.forEach(el => {
-            newCarsGeo.push({
-              vehicleId: el.vehicleId,
-              timestamp: el.timestamp,
-              latitude: el.latitude,
-              longitude: el.longitude,
-              direction: el.direction,
-              speed: el.speed,
-              altitude: el.altitude,
-              ignition: el.ignition,
-              alarm: el.alarm,
-              address: el.address
-            });
-          });
-          console.log(newCarsGeo[0].latitude + " " + newCarsGeo[0].longitude);
-          this.$store.commit("updateGeo", newCarsGeo); //Отправляю данные в сторадж
+          this.$store.commit("updateGeo", res.data); //Отправляю данные в сторадж
         });
     }, 500);
     this.$store.watch(

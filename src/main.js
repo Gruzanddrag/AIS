@@ -31,7 +31,7 @@ export const userLocationBus = new Vue();
 
 const store = new Vuex.Store({
   state: {
-    carsGeo: [{}]
+    carsGeo: []
   },
   mutations: {
     updateGeo(state, carsNewGeo) {
@@ -42,13 +42,7 @@ const store = new Vuex.Store({
     findCarById: state => carId => {
       return state.carsGeo.find(car => car.vehicleId === carId);
     },
-    carsGeo: state => {
-      let res = []
-      state.carsGeo.forEach(el => {
-        res.push([el.latitude, el.longitude])
-      })
-      return res;
-    }
+    carsGeo: state => state.carsGeo
   }
 });
 
